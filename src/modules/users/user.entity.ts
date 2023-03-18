@@ -29,6 +29,12 @@ export class User extends Model<User> {
 
   @Column({
     type: DataType.STRING,
+    allowNull: true,
+  })
+  password: string;
+
+  @Column({
+    type: DataType.STRING,
     unique: true,
     allowNull: false,
   })
@@ -43,6 +49,7 @@ export class User extends Model<User> {
   @Column
   image: string;
 
+  @Default(0)
   @Column({
     type: DataType.INTEGER,
   })
