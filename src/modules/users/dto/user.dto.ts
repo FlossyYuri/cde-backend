@@ -1,6 +1,16 @@
-import { IsNotEmpty, IsEmail, MinLength, IsUrl } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
+import {
+  IsNotEmpty,
+  IsEmail,
+  MinLength,
+  IsUrl,
+  IsOptional,
+  IsNumber,
+  IsBoolean,
+} from 'class-validator';
+import { User } from '../user.entity';
 
-export class UserDto {
+export class UserDto extends PartialType(User) {
   @IsNotEmpty()
   readonly username: string;
   @IsNotEmpty()
@@ -14,4 +24,26 @@ export class UserDto {
   @IsNotEmpty()
   @IsUrl()
   readonly image: string;
+}
+
+export class UpdateUserDto extends PartialType(User) {
+  @IsNotEmpty()
+  @IsOptional()
+  readonly phone: string;
+  @IsNotEmpty()
+  @IsUrl()
+  @IsOptional()
+  readonly image: string;
+  @IsNotEmpty()
+  @IsNumber()
+  @IsOptional()
+  readonly coins: number;
+  @IsNotEmpty()
+  @IsBoolean()
+  @IsOptional()
+  readonly premium: boolean;
+  @IsNotEmpty()
+  @IsNumber()
+  @IsOptional()
+  readonly tests: number;
 }

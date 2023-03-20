@@ -13,11 +13,38 @@ export class UsersService {
     return await this.userRepository.create<User>(user);
   }
 
+  async findAll(): Promise<User[]> {
+    return await this.userRepository.findAll<User>({
+      attributes: { exclude: ['password'] },
+    });
+  }
+
   async findOneByEmail(email: string): Promise<User> {
     return await this.userRepository.findOne<User>({ where: { email } });
   }
 
   async findOneById(id: number): Promise<User> {
     return await this.userRepository.findOne<User>({ where: { id } });
+  }
+
+  async findOne(id: number): Promise<User> {
+    return await this.userRepository.findOne<User>({
+      where: { id },
+      attributes: { exclude: ['password'] },
+    });
+  }
+
+  async delete(id) {
+    return await this.userRepository.destroy({ where: { id } });
+  }
+
+  async update(id, data) {
+    const [numberOfAffectedRows, [updatedUser]] =
+      await this.userRepository.update(
+        { ...data },
+        { where: { id }, returning: true },
+      );
+
+    return { numberOfAffectedRows, updatedUser };
   }
 }

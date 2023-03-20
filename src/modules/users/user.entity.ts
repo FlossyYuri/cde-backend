@@ -7,8 +7,6 @@ import {
   PrimaryKey,
   IsUrl,
   Default,
-  CreatedAt,
-  UpdatedAt,
 } from 'sequelize-typescript';
 
 @Table
@@ -53,7 +51,7 @@ export class User extends Model<User> {
   @Column({
     type: DataType.INTEGER,
   })
-  cs: number;
+  coins: number;
 
   @Default(2)
   @Column({
@@ -66,16 +64,4 @@ export class User extends Model<User> {
     type: DataType.BOOLEAN,
   })
   premium: boolean;
-
-  @CreatedAt
-  @Column({
-    type: DataType.DATE,
-  })
-  createdAt: Date;
-
-  @UpdatedAt
-  @Column({
-    type: DataType.DATE,
-  })
-  updatedAt: Date;
 }
