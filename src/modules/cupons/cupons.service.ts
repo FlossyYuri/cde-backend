@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CUPON_REPOSITORY } from 'src/core/constants';
 import { CuponDto } from './dto/cupon.dto';
 import { Cupon } from './cupon.entity';
+import { addYear } from 'src/utils';
 
 @Injectable()
 export class CuponsService {
@@ -12,13 +13,7 @@ export class CuponsService {
 
   async create(cupon: CuponDto): Promise<Cupon> {
     cupon.code = this.code_generator(12);
-    const currentDate = new Date();
-    cupon.expiresAt = new Date(
-      currentDate.getFullYear() + 1,
-      currentDate.getMonth(),
-      currentDate.getDate(),
-    );
-    console.log(cupon.code);
+    cupon.expiresAt = addYear(new Date());
     return await this.cuponRepository.create<Cupon>(cupon);
   }
 
