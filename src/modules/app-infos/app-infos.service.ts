@@ -1,12 +1,12 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { AppInfo } from './app-info.entity';
 import { AppInfoDto } from './dto/app-info.dto';
-import { AppInfo_REPOSITORY } from '../../core/constants';
+import { APP_INFO_REPOSITORY } from '../../core/constants';
 
 @Injectable()
 export class AppInfosService {
   constructor(
-    @Inject(AppInfo_REPOSITORY)
+    @Inject(APP_INFO_REPOSITORY)
     private readonly appInfoRepository: typeof AppInfo,
   ) {}
 

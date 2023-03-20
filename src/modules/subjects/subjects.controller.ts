@@ -6,9 +6,9 @@ import {
   NotFoundException,
   Param,
   Put,
+  Post,
   UseGuards,
 } from '@nestjs/common';
-import { Post } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
 import { SubjectDto, UpdateSubjectDto } from './dto/subject.dto';
 import { Subject as SubjectEntity } from './subject.entity';

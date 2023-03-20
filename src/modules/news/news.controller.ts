@@ -6,9 +6,9 @@ import {
   NotFoundException,
   Param,
   Put,
+  Post,
   UseGuards,
 } from '@nestjs/common';
-import { Post } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
 import { NewsDto, UpdateNewsDto } from './dto/new.dto';
 import { New as NewsEntity } from './new.entity';
