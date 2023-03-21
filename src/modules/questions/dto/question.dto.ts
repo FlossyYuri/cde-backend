@@ -49,5 +49,5 @@ export class UpdateQuestionDto extends PartialType(Question) {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => UpdateAlternativeDto)
-  readonly alternativas: UpdateAlternativeDto[];
+  readonly alternativesList: UpdateAlternativeDto[];
 }
