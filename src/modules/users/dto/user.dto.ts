@@ -35,6 +35,9 @@ export class UpdateUserDto extends PartialType(User) {
   @IsOptional()
   readonly image: string;
   @IsNotEmpty()
+  @IsOptional()
+  readonly role: string;
+  @IsNotEmpty()
   @IsNumber()
   @IsOptional()
   readonly coins: number;

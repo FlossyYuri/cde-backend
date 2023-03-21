@@ -64,4 +64,11 @@ export class User extends Model<User> {
     type: DataType.BOOLEAN,
   })
   premium: boolean;
+
+  @Default('CLIENT')
+  @Column({
+    type: DataType.ENUM,
+    values: ['ADMIN', 'MANAGER', 'CLIENT'],
+  })
+  role: string;
 }
