@@ -47,7 +47,6 @@ export class QuestionsService {
   }
 
   async update(id, data: UpdateQuestionDto) {
-    console.log(data.answer);
     await Promise.all(
       data.alternativesList.map((alternative) => {
         return this.alternativeService.update(alternative.id, alternative);

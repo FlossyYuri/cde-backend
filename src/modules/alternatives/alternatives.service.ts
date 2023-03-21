@@ -29,12 +29,12 @@ export class AlternativesService {
   }
 
   async update(id, data) {
-    const [numberOfAffectedRows, [updatedAppInfo]] =
+    const [numberOfAffectedRows, [updatedQuestionTest]] =
       await this.alternativeRepository.update(
         { ...data },
         { where: { id }, returning: true },
       );
 
-    return { numberOfAffectedRows, updatedAppInfo };
+    return { numberOfAffectedRows, updatedQuestionTest };
   }
 }
