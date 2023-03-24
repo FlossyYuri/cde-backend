@@ -1,7 +1,9 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { User } from './user.entity';
-import { UserDto } from './dto/user.dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { paginationBuilder, PaginatedData } from 'src/utils/pagination.util';
 import { USER_REPOSITORY } from '../../core/constants';
+import { UserDto } from './dto/user.dto';
+import { User } from './user.entity';
+import { UserFilterOptions } from './users.controller';
 
 @Injectable()
 export class UsersService {
@@ -13,9 +15,18 @@ export class UsersService {
     return await this.userRepository.create<User>(user);
   }
 
-  async findAll(): Promise<User[]> {
-    return await this.userRepository.findAll<User>({
-      attributes: { exclude: ['password'] },
+  async findAll({
+    page = 1,
+    size = 10,
+    ...rest
+  }: UserFilterOptions): Promise<PaginatedData<User>> {
+    return await paginationBuilder(this.userRepository, {
+      page,
+      size,
+      options: {
+        where: { ...rest },
+        attributes: { exclude: ['password'] },
+      },
     });
   }
 

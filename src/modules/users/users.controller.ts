@@ -5,21 +5,32 @@ import {
   Get,
   NotFoundException,
   Param,
+  Query,
   Put,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { PaginationOptions } from 'src/utils/pagination.util';
 import { UpdateUserDto } from './dto/user.dto';
 import { User as UserEntity } from './user.entity';
 import { UsersService } from './users.service';
+
+export interface UserFilterOptions extends PaginationOptions {
+  username?: string;
+  email?: string;
+  phone?: string;
+  role?: string;
+  premium?: boolean;
+}
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
-  async findAll() {
-    return await this.userService.findAll();
+  async findAll(@Query() query: UserFilterOptions) {
+    console.log(query);
+    return await this.userService.findAll(query);
   }
 
   @Get(':id')
