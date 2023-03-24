@@ -1,9 +1,11 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { IsNotEmpty, IsOptional } from 'class-validator';
-import { QuestionTestDto } from 'src/modules/question-test/dto/question-test.dto';
 import { Test } from '../test.entity';
 
 export class TestDto extends PartialType(Test) {
+  @IsNotEmpty()
+  @IsOptional()
+  readonly id: number;
   @IsNotEmpty()
   readonly category: string;
   @IsNotEmpty()

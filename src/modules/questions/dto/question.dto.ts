@@ -3,7 +3,6 @@ import { Type } from 'class-transformer';
 import {
   IsArray,
   IsNotEmpty,
-  IsObject,
   IsOptional,
   IsUrl,
   ValidateNested,
@@ -13,9 +12,13 @@ import { Question } from '../question.entity';
 
 export class QuestionDto extends PartialType(Question) {
   @IsNotEmpty()
+  @IsOptional()
+  readonly id: number;
+  @IsNotEmpty()
   readonly category: string;
   @IsNotEmpty()
   @IsUrl()
+  @IsOptional()
   readonly image: string;
   @IsNotEmpty()
   readonly question: string;
@@ -24,7 +27,7 @@ export class QuestionDto extends PartialType(Question) {
   @IsNotEmpty()
   readonly subject_id: number;
   @IsNotEmpty()
-  readonly alternativas: string[];
+  readonly alternativesList: string[];
 }
 
 export class UpdateQuestionDto extends PartialType(Question) {

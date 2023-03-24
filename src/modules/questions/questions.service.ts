@@ -19,7 +19,7 @@ export class QuestionsService {
     );
 
     await Promise.all(
-      question.alternativas.map((alternative) => {
+      question.alternativesList.map((alternative) => {
         return this.alternativeService.create({
           text: alternative,
           question_id: newQuestion.id,
