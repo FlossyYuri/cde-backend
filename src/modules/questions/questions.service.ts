@@ -1,9 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { QUESTION_REPOSITORY } from 'src/core/constants';
+import { PaginatedData, paginationBuilder } from 'src/utils/pagination.util';
 import { Alternative } from '../alternatives/alternative.entity';
 import { AlternativesService } from '../alternatives/alternatives.service';
 import { QuestionDto, UpdateQuestionDto } from './dto/question.dto';
 import { Question } from './question.entity';
+import { QuestionFilterOptions } from './questions.controller';
 
 @Injectable()
 export class QuestionsService {
@@ -29,9 +31,17 @@ export class QuestionsService {
     return this.findOne(newQuestion.id);
   }
 
-  async findAll(): Promise<Question[]> {
-    return await this.questionRepository.findAll<Question>({
-      include: Alternative,
+  async findAll({
+    page = 1,
+    size = 10,
+    ...rest
+  }: QuestionFilterOptions): Promise<PaginatedData<Question>> {
+    return await paginationBuilder(this.questionRepository, {
+      page,
+      size,
+      options: {
+        where: { ...rest },
+      },
     });
   }
 

@@ -7,20 +7,29 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Question as QuestionEntity } from './question.entity';
 import { QuestionsService } from './questions.service';
 import { QuestionDto, UpdateQuestionDto } from './dto/question.dto';
+import { PaginationOptions } from 'src/utils/pagination.util';
+
+export interface QuestionFilterOptions extends PaginationOptions {
+  question?: string;
+  answer?: string;
+  category?: string;
+  subject_id?: number;
+}
 
 @Controller('questions')
 export class QuestionsController {
   constructor(private readonly questionService: QuestionsService) {}
 
   @Get()
-  async findAll() {
-    return await this.questionService.findAll();
+  async findAll(@Query() query: QuestionFilterOptions) {
+    return await this.questionService.findAll(query);
   }
 
   @Get(':id')
