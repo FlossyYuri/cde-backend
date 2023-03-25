@@ -3,6 +3,8 @@ import { CUPON_REPOSITORY } from 'src/core/constants';
 import { CuponDto } from './dto/cupon.dto';
 import { Cupon } from './cupon.entity';
 import { addYear } from 'src/utils';
+import { CuponFilterOptions } from './cupons.controller';
+import { PaginatedData, paginationBuilder } from 'src/utils/pagination.util';
 
 @Injectable()
 export class CuponsService {
@@ -17,8 +19,18 @@ export class CuponsService {
     return await this.cuponRepository.create<Cupon>(cupon);
   }
 
-  async findAll(): Promise<Cupon[]> {
-    return await this.cuponRepository.findAll<Cupon>();
+  async findAll({
+    page = 1,
+    size = 10,
+    ...rest
+  }: CuponFilterOptions): Promise<PaginatedData<Cupon>> {
+    return await paginationBuilder(this.cuponRepository, {
+      page,
+      size,
+      options: {
+        where: { ...rest },
+      },
+    });
   }
 
   async findOne(code: string): Promise<Cupon> {

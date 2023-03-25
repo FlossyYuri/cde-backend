@@ -7,20 +7,28 @@ import {
   Param,
   Put,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CuponDto, UpdateCuponDto } from './dto/cupon.dto';
 import { Cupon as CuponsEntity } from './cupon.entity';
 import { CuponsService } from './cupons.service';
+import { PaginationOptions } from 'src/utils/pagination.util';
+
+export interface CuponFilterOptions extends PaginationOptions {
+  user_id?: string;
+  coins?: number;
+  premium?: boolean;
+}
 
 @Controller('cupons')
 export class CuponsController {
   constructor(private readonly cuponService: CuponsService) {}
 
   @Get()
-  async findAll() {
-    return await this.cuponService.findAll();
+  async findAll(@Query() query: CuponFilterOptions) {
+    return await this.cuponService.findAll(query);
   }
 
   @Get(':code')
