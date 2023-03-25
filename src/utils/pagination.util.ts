@@ -28,20 +28,22 @@ export async function paginationBuilder(
   const offset = (page - 1) * size;
   const limit = size;
   const compiledWhere = Object.keys(where).reduce((prev, current) => {
+    const term = where[current];
     const result = {
       ...prev,
-      [current]:
-        typeof where[current] === 'string'
-          ? { [Op.substring]: where[current] }
-          : where[current],
+      [current]: typeof term === 'string' ? { [Op.substring]: term } : term,
     };
-    switch (where[current]) {
+    switch (term) {
       case 'true':
       case 'false':
-        result[current] = Boolean(where[current]);
+        result[current] = Boolean(term);
         break;
-
+      case '':
+        break;
       default:
+        if (!isNaN(+term)) {
+          result[current] = +term;
+        }
         break;
     }
     return result;

@@ -29,7 +29,6 @@ export class UsersController {
 
   @Get()
   async findAll(@Query() query: UserFilterOptions) {
-    console.log(query);
     return await this.userService.findAll(query);
   }
 
