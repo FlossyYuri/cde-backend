@@ -7,20 +7,27 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Test as TestEntity } from './test.entity';
 import { TestsService } from './tests.service';
 import { TestDto, UpdateTestDto } from './dto/test.dto';
+import { PaginationOptions } from 'src/utils/pagination.util';
+
+export interface TestFilterOptions extends PaginationOptions {
+  category?: string;
+  name?: string;
+}
 
 @Controller('tests')
 export class TestsController {
   constructor(private readonly testService: TestsService) {}
 
   @Get()
-  async findAll() {
-    return await this.testService.findAll();
+  async findAll(@Query() query: TestFilterOptions) {
+    return await this.testService.findAll(query);
   }
 
   @Get(':id')
