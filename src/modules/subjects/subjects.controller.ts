@@ -7,19 +7,25 @@ import {
   Param,
   Put,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { PaginationOptions } from 'src/utils/pagination.util';
 import { SubjectDto, UpdateSubjectDto } from './dto/subject.dto';
 import { Subject as SubjectEntity } from './subject.entity';
 import { SubjectsService } from './subjects.service';
+
+export interface SubjectFilterOptions extends PaginationOptions {
+  name?: string;
+}
 @Controller('subjects')
 export class SubjectsController {
   constructor(private readonly subjectService: SubjectsService) {}
 
   @Get()
-  async findAll() {
-    return await this.subjectService.findAll();
+  async findAll(@Query() query: SubjectFilterOptions) {
+    return await this.subjectService.findAll(query);
   }
 
   @Get(':id')
