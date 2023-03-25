@@ -1,8 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { GIFTS_REPOSITORY } from 'src/core/constants';
 import { addYear } from 'src/utils';
+import { PaginatedData, paginationBuilder } from 'src/utils/pagination.util';
 import { GiftDto } from './dto/gift.dto';
 import { Gift } from './gift.entity';
+import { GiftFilterOptions } from './gifts.controller';
 
 @Injectable()
 export class GiftsService {
@@ -16,10 +18,19 @@ export class GiftsService {
     return await this.giftRepository.create<Gift>(gift);
   }
 
-  async findAll(): Promise<Gift[]> {
-    return await this.giftRepository.findAll<Gift>();
+  async findAll({
+    page = 1,
+    size = 10,
+    ...rest
+  }: GiftFilterOptions): Promise<PaginatedData<Gift>> {
+    return await paginationBuilder(this.giftRepository, {
+      page,
+      size,
+      options: {
+        where: { ...rest },
+      },
+    });
   }
-
   async findOne(id: number): Promise<Gift> {
     return await this.giftRepository.findOne<Gift>({ where: { id } });
   }

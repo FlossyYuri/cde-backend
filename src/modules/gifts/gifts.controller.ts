@@ -7,20 +7,27 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Gift as GiftEntity } from './gift.entity';
 import { GiftsService } from './gifts.service';
 import { GiftDto, UpdateGiftDto } from './dto/gift.dto';
+import { PaginationOptions } from 'src/utils/pagination.util';
+
+export interface GiftFilterOptions extends PaginationOptions {
+  colected?: boolean;
+  user_id?: number;
+}
 
 @Controller('gifts')
 export class GiftsController {
   constructor(private readonly giftService: GiftsService) {}
 
   @Get()
-  async findAll() {
-    return await this.giftService.findAll();
+  async findAll(@Query() query: GiftFilterOptions) {
+    return await this.giftService.findAll(query);
   }
 
   @Get(':id')
